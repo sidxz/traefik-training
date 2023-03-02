@@ -2,6 +2,10 @@ version: '3'
 
 services:
   traefik:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ned.ist.snet.biobio.tamu.edu
     # The latest official supported Traefik docker image
     image: traefik:v2.9
     # Enables the Traefik Dashboard and tells Traefik to listen to docker
@@ -15,7 +19,8 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.yml:/etc/traefik/traefik.yml
+      #- ./traefik.yml:/etc/traefik/traefik.yml
+      - /net-fs-ins/docker-vols/traefik/traefik.yml:/etc/traefik/traefik.yml
 
 # Add the catapp service
   catapp:
@@ -24,7 +29,7 @@ services:
      # We set a label to tell Traefik to assign a hostname to the new service
      labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.catapp.rule=Host(`catapp.localhost`)"
+      - "traefik.http.routers.catapp.rule=Host(`ned.ist.snet.biobio.tamu.edu`)"
       - "traefik.http.routers.catapp.entrypoints=web"
       - "traefik.http.routers.catapp.service=catapp"
       - "traefik.http.services.catapp.loadbalancer.server.port=5000"

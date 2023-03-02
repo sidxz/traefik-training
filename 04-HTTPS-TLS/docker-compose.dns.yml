@@ -27,7 +27,7 @@ services:
      image: mikesir87/cats:1.0
      labels:
        - "traefik.enable=true"
-       - "traefik.http.routers.catapp.rule=Host(`your_domain_here`)"
+       - "traefik.http.routers.catapp.rule=Host(`lab.snet.biobio.tamu.edu`)"
        - "traefik.http.routers.catapp.service=catapp"
        - "traefik.http.services.catapp.loadbalancer.server.port=5000"
        - "traefik.http.routers.catapp.entrypoints=websecure"
